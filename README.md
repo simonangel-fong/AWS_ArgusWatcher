@@ -9,7 +9,7 @@ A Django Portfolio Project.
 - [x] Create project: ArgusWatcher
 - [x] Template:
   - [x] Home
-- [ ]Test: deploy EC2
+- [x]Test: deploy EC2
 - [ ]Test: database MySQL
 
 ---
