@@ -13,14 +13,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from environ import Env
 
-env = Env()
-env.read_env()
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+env = Env()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+env.read_env()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
