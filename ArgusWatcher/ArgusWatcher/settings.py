@@ -13,31 +13,24 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from environ import Env
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+env = Env(
+    DEBUG=(bool, False)  # default value
+)
 
-env = Env()
-
+# path of django proejct folder
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env.read_env()
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+# read the env file from the base dir
+env.read_env(Path(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8(^rv_xy(a+hr3st(vpldn9sf4c&(_nz01cuzis!$*s74^=q&3'
+SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = True
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = [
-    "*",
-]
-# ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(" ")
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AppTest',
+    'bootstrap5',
+    'AppEC2',
 ]
 
 MIDDLEWARE = [
@@ -80,13 +74,11 @@ WSGI_APPLICATION = 'ArgusWatcher.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     # overrides the default db
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env("MYSQL_DATABASE_NAME"),
+        'NAME': env("MYSQL_DB_NAME"),
         'USER': env("MYSQL_USERNAME"),
         'PASSWORD': env("MYSQL_PASSWORD"),
         'HOST': env("MYSQL_HOST"),
@@ -101,8 +93,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -120,36 +110,32 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = 'static/'
-STATIC_ROOT = 'static'
+STATIC_ROOT = 'static'  # collectstatic
+
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env("EMAIL_HOST")  # looking up the value EMAIL_HOST
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+# the path of private key .pem file to connect instance with ssh
+RSAKEY_PATH = Path(BASE_DIR, "RSAKey.pem")
 
-# a custom setting to send the emails to an address can be accessed.
-RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
+# reserved for later version
+# Email
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = env("EMAIL_HOST")  # looking up the value EMAIL_HOST
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+
+# # a custom setting to send the emails to an address can be accessed.
+# RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')

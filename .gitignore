@@ -1,6 +1,7 @@
-.env
 .env/
 .vscode/
-db.sqlite3
 __pycache__/
-# migrations/
+.env
+*.pem
+*.ipynb
+db.sqlite3
