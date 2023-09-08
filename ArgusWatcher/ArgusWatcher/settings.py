@@ -79,7 +79,7 @@ DATABASES = {
     # overrides the default db
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env("MYSQL_DB_NAME"),
+        'NAME': env("MYSQL_DATABASE_NAME"),
         'USER': env("MYSQL_USERNAME"),
         'PASSWORD': env("MYSQL_PASSWORD"),
         'HOST': env("MYSQL_HOST"),

@@ -1,12 +1,21 @@
-// window.location.host
-
-const fetch_ec2_by_name = async (name, url = INFO_URL) => {
+/**
+ * Send a request to aws, the request is controled by the url
+ * @param {*} name Instance name
+ * @param {*} url Url defined by django.
+ * @returns The json data returned by django.
+ */
+const request_ec2_by_name = async (name, url) => {
+  console.log(`${url}/${name}`);
   const json_data = await fetch(`${url}/${name}`).then((response) =>
     response.json()
   );
   return json_data;
 };
 
+/**
+ * Displays instance info in the page
+ * @param {*} data Json data of instance info
+ */
 function display(data) {
   if (data["status"] == "success") {
     data = JSON.parse(data["data"])[0];
@@ -25,7 +34,3 @@ function display(data) {
     $("#status").addClass("text-secondary");
   }
 }
-
-// fetch_ec2_by_name("ArgusWatcher", UPDATE_CODE_URL).then((data) =>
-//   console.log(data)
-// );
