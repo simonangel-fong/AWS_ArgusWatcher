@@ -4,13 +4,10 @@ A Django Portfolio Project.
 
 ---
 
-## V 0.0: Baseline
+## V 1.0.1: Project Showcase
 
-- [x] Create project: ArgusWatcher
-- [x] Template:
-  - [x] Home
-- [x]Test: deploy EC2
-- [x]Test: database MySQL
+- Task:
+  - Connect front-end project: `tic-tac-toe` and `connect-four`.
 
 ---
 
@@ -42,3 +39,14 @@ A Django Portfolio Project.
   - [x] Create
   - [x] Detail
   - [x] Terminate
+
+---
+
+## V 0.0: Baseline
+
+- [x] Create project: ArgusWatcher
+- [x] Template:
+  - [x] Home
+- [x] Test: deploy EC2
+- [x] Test: database MySQL
+

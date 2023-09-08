@@ -1,0 +1,67 @@
+{% extends "layout\base.html" %} {% block css %} {% load static %}
+<link rel="stylesheet" href="{% static 'tic-tac-toe.css' %}" />
+{% endblock %} {% block main %}
+<div class="container">
+  <header class="p-3 rounded-bottom" style="background-color: #eee">
+    <div class="row">
+      <div class="col-lg-9 col-md-12 align-self-center">
+        <p class="display-6">Welcome to Tic Tac Toe!</p>
+      </div>
+      <div class="col-lg-3 col-md-12 text-center align-self-center">
+        <button
+          type="button"
+          class="btn btn-secondary btn-lg"
+          onclick="restart()"
+        >
+          Restart!
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="row pt-4">
+    <div class="row">
+      <div class="col-lg-3 col-md-12">
+        <div class="row">
+          <div class="col-12 d-flex justify-content-center pt-5">
+            <p id="mark_black" class="text-center">X</p>
+          </div>
+          <div class="col-12">
+            <p class="text-center display-6">Black</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <table class="mx-auto">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-lg-3 col-md-12">
+        <div class="row">
+          <div class="col-12 d-flex justify-content-center pt-5">
+            <p id="mark_white" class="text-center">O</p>
+          </div>
+          <div class="col-12">
+            <p class="text-center display-6">White</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block js %}
+<script src="{% static 'tic-tac-toe.js' %}"></script>
+{% endblock %}

@@ -87,7 +87,7 @@ create_env_file() {
     local P_DOMAIN=$7
 
     echo -e "$(date +'%Y-%m-%d %R') Create .env file starts..."
-    env_file=/home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME}/${P_PROJECT_NAME}/.env
+    env_file=/home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME}/.env
     cat >$env_file <<ENV
 DEBUG=False
 ALLOWED_HOSTS=${P_HOST_IP} ${P_DOMAIN}
@@ -355,7 +355,7 @@ create_env_file() {
     local P_DOMAIN=$7
 
     echo -e "$(date +'%Y-%m-%d %R') Create .env file starts..."
-    env_file=/home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME}/${P_PROJECT_NAME}/.env
+    env_file=/home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME}/.env
     cat >$env_file <<ENV
 DEBUG=False
 ALLOWED_HOSTS=${P_HOST_IP} ${P_DOMAIN}
