@@ -2,6 +2,32 @@
 
 A Django Portfolio Project.
 
+- Log for branch `ec_deploy`
+  - Easy deploy django on ec2 on hold
+  - TODO:
+    - 1. prevent the usage of RSAKey
+    - 2. environment variable should be reorganized, including django_secret
+    - 2. learn CI/CD, using aws pipline
+    - 3. learn the role in aws
+    - 4. bash script should be modified to adapt CI/CD
+
+---
+
+## V 1.1.1: Deploy ArgusWatcher.net
+
+- **Restructure files**
+  
+  - repo_name/
+    - manage.py
+    - requirements.txt
+    - project_name/
+      - AppShowcase/
+
+- **environment variables**
+
+
+
+
 ---
 
 ## V 1.0.1: Project Showcase

@@ -1,0 +1,272 @@
+{% extends "layout/base.html" %} {% block css %} {% load static %}
+<link rel="stylesheet" href="{% static 'connect-four.css' %}" />
+{% endblock %} {% block main %}
+<div class="container">
+  <header class="bg-light px-4 py-3 mb-4">
+    <div class="row">
+      <div class="col-md-3 col-sm-12 align-self-center text-center">
+        <h2 class="fw-bold">Connect Four!</h2>
+      </div>
+      <div class="col-md-6 col-sm-12 border-start border-end border-2">
+        <p class="fs-6">
+          <b>Goal</b>: Connect four of chips in a row!<br />
+          <b>Hints</b>: Move cursor to preview chip. Double click to place chip.
+        </p>
+      </div>
+      <div class="col-md-3 col-sm-12 align-self-center text-center">
+        <button
+          id="restart"
+          class="btn btn-lg btn-outline-secondary"
+          type="button"
+        >
+          Restart
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="row pb-4">
+    <div class="col-md-3 col-sm-12 text-center mx-auto">
+      <p class="fs-3 fw-bold p-4">Blue</p>
+      <div
+        class="chess shadow-lg bg-info border border-3 border-dark rounded-circle mx-auto"
+      ></div>
+      <p id="userBlue" class="fs-4 p-5">#userBlue</p>
+    </div>
+    <div class="col-md-6 col-sm-12 mx-auto">
+      <table id="board" class="border-bottom border-dark border-3 shadow-lg">
+        <tr>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+          <td class="border-start border-end border-dark border-3">
+            <div
+              class="chess bg-secondary rounded-circle border border-3 border-dark"
+            ></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-3 col-sm-12 text-center mx-auto">
+      <p class="fs-3 fw-bold p-4">Red</p>
+      <div
+        class="chess bg-danger border border-3 border-dark rounded-circle mx-auto"
+      ></div>
+      <p id="userRed" class="fs-4 p-5">#userRed</p>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block js %}
+<script src="{% static 'connect-four.js' %}"></script>
+{% endblock %}
