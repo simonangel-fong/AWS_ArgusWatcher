@@ -1,0 +1,12 @@
+{% extends "layout/base.html" %} {% block main %}
+<header>
+  <h1 class="heading text-center">{{heading}}</h1>
+  <hr />
+</header>
+<div class="row p-3 m-3">
+  <div class="col-4 px-0 mx-auto">
+    <h4>Return <a href="{% url 'home' %}">Home Page</a></h4>
+  </div>
+</div>
+
+{% endblock %}

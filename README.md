@@ -25,8 +25,9 @@ A Django Portfolio Project.
 
 - **environment variables**
 
+- Account
 
-
+- Theme
 
 ---
 
