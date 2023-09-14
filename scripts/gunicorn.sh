@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-sudo cp /home/ubuntu/ArgusWatch/gunicorn/gunicorn.socket  /etc/systemd/system/gunicorn.socket
-sudo cp /home/ubuntu/ArgusWatch/gunicorn/gunicorn.service  /etc/systemd/system/gunicorn.service
+sudo cp /home/ubuntu/ArgusWatcher/gunicorn/gunicorn.socket  /etc/systemd/system/gunicorn.socket
+sudo cp /home/ubuntu/ArgusWatcher/gunicorn/gunicorn.service  /etc/systemd/system/gunicorn.service
 
 sudo systemctl start gunicorn.service
 sudo systemctl enable gunicorn.service
