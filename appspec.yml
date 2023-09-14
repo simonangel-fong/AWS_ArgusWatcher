@@ -13,19 +13,19 @@ hooks:
       timeout: 300
       runas: ubuntu
   AfterInstall:
-    - location: scripts/instance_os_dependencies.sh
+    - location: scripts/setup_env.sh
       timeout: 300
       runas: ubuntu
-    - location: scripts/python_dependencies.sh
+    - location: scripts/update_venv_package.sh
       timeout: 300
       runas: ubuntu
-    - location: scripts/gunicorn.sh
+    - location: scripts/setup_gunicorn.sh
       timeout: 300
       runas: ubuntu
-    - location: scripts/nginx.sh
+    - location: scripts/setup_nginx.sh
       timeout: 300
       runas: ubuntu
-    - location: scripts/supervisor.sh
+    - location: scripts/setup_supervisor.sh
       timeout: 300
       runas: ubuntu
   ApplicationStop:
