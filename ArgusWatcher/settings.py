@@ -10,7 +10,7 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # read the env file from the base dir
-env.read_env(Path(BASE_DIR, '.env'))
+env.read_env(Path(Path(BASE_DIR).parent, ".env"))
 
 # False if not in os.environ because of casting above
 DEBUG = env('DEBUG')
