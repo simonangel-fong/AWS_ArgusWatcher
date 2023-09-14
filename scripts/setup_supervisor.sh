@@ -21,8 +21,8 @@ sudo bash -c "cat >$supervisor_gunicorn <<SUP_GUN
     programs:gunicorn
 SUP_GUN"
 
+sudo systemctl daemon-reload
 sudo supervisorctl reread # tell supervisor read configuration file
 sudo supervisorctl update # update supervisor configuration
 sudo supervisorctl reload # Restarted supervisord
-sudo supervisorctl status # verify configuration status
 
