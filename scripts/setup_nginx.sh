@@ -16,8 +16,8 @@ server {
 listen 80;
 server_name 54.167.248.70;
 location = /favicon.ico { access_log off; log_not_found off; }
-location /staticfiles/ {
-    root /home/ubuntu/ArgusWatcher;
+location /static/ {
+    root /home/ubuntu/ArgusWatcher/staticfiles;
 }
 
 location /media/ {
