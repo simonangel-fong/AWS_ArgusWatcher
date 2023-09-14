@@ -2,6 +2,39 @@
 
 A Django Portfolio Project.
 
+## V 1.1.2 CICD
+
+setup
+
+1 iam role
+2. ec2 instance
+3. codeDeploy Installation
+4. Code Structure
+
+configuration files
+code pipline
+
+```sh
+sudo apt update
+sudo apt install -y ruby-full
+sudo apt install -y wget
+# bucket name and region, please refer to https://docs.aws.amazon.com/codedeploy/latest/userguide/resource-kit.html#resource-kit-bucket-names
+wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto > /tmp/logfile
+# sudo systemctl status codedeploy-agent
+```
+
+file structure
+
+---
+
+create new build
+
+
+
+---
+
 - Log for branch `ec_deploy`
   - Easy deploy django on ec2 on hold
   - TODO:

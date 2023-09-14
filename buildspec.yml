@@ -1,0 +1,27 @@
+version: 0.1
+
+environment_variables:
+  plaintext:
+    SECRET_KEY: django-insecure-y5op=xmx^&cr(k82ip^3we0wwrtvj#=xbiasip8x9-njl-$s5j
+    ALLOWED_HOSTS: localhost 127.0.0.1
+    DB_ENGINE: django.db.backends.mysql
+    DB_NAME: django
+    DB_USER: adam
+    DB_PASSWORD: adam123456
+    DB_HOST: database-1.c0vq5dp9gylw.us-east-1.rds.amazonaws.com
+    DB_PORT: 3306
+
+phases:
+  pre_build:
+    commands:
+      - echo Prebuild ops
+      - pip3 install -r requirements.txt
+  build:
+    commands:
+      - echo Building the application
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - "**/*"
