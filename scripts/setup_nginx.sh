@@ -14,7 +14,7 @@ django_conf=/etc/nginx/sites-available/django.conf
 sudo bash -c "cat >$django_conf <<DJANGO_CONF
 server {
 listen 80;
-server_name 54.167.248.70;
+server_name 54.167.248.70 arguswatcher.net www.arguswatcher.net;
 location = /favicon.ico { access_log off; log_not_found off; }
 location /static/ {
     root /home/ubuntu/ArgusWatcher;
