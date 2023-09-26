@@ -1,0 +1,127 @@
+version: 0.0
+# Specify "os: linux" if this revision targets Amazon Linux.
+os: linux
+# Rel: https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-files.html
+# During the Install deployment lifecycle event (which occurs between the BeforeInstall and AfterInstall events),
+#   copy the specified files in "source" starting from the root of the revision's file bundle to "destination" on the Amazon EC2 instance.
+#   If you are not copying any files to the Amazon EC2 instance, then remove the "files" section altogether.
+#   A blank or incomplete "files" section may cause associated deployments to fail.
+files:
+  # The source instruction identifies a file or directory from your revision to copy to the instance:
+  #   If source refers to a file, only the specified files are copied to the instance.
+  #   If source refers to a directory, then all files in the directory are copied to the instance.
+  #   If source is a single slash ("/" for Amazon Linux, RHEL, and Ubuntu Server instances, or "\" for Windows Server instances),
+  #     then all of the files from your revision are copied to the instance.
+  #   The paths used in source are relative to the appspec.yml file, which should be at the root of your revision.
+  - source: /
+    # The destination instruction identifies the location on the instance where the files should be copied.
+    #   This must be a fully qualified path such as /root/destination/directory (on Linux, RHEL, and Ubuntu)
+    #   or c:\destination\folder (on Windows).
+    destination: /home/ubuntu/proejct_name
+# Rel: https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-permissions.html
+# The 'permissions' section specifies how special permissions,
+#   if any, should be applied to the files and directories/folders in the 'files' section after they are copied to the instance.
+permissions:
+  # object – Required.
+  #   This is a set of file system objects (files or directories/folders) that the specified permissions are applied to after the file system objects are copied to the instance.
+  - object: /home/ubuntu/proejct_name
+    # pattern – Optional.
+    #   Specifies a pattern to apply permissions.
+    #   If not specified or specified with the special characters "**",
+    #     the permissions are applied to all matching files or directories, depending on the type.
+    pattern:
+    # except – Optional.
+    #   Specifies any files or directories that are exceptions to pattern.
+    except:
+    # owner – Optional.
+    #   The name of the owner of object.
+    #   If not specified, all existing owners applied to the original file or directory/folder structure remain unchanged after the copy operation.
+    owner:
+    # group – Optional.
+    #   The name of the group for object.
+    #   If not specified, all existing groups applied to the original file or directory/folder structure remain unchanged after the copy operation.
+    group:
+    # mode – Optional.
+    #   A numeric value specifying the permissions to be applied to object.
+    #   The mode setting follows the Linux chmod command syntax.
+    mode:
+    # acls – Optional.
+    #   A list of character strings representing one or more access control list (ACL) entries applied to object.
+    acls:
+      -
+    # context – Optional.
+    #   For Security-Enhanced Linux (SELinux)-enabled instances, a list of security-relevant context labels to apply to the copied objects.
+    context:
+      # user – Optional. The SELinux user.
+      user:
+      # type – Optional. The SELinux type name.
+      type:
+      # range – Optional. The SELinux range specifier.
+      range:
+    # type – Optional. The types of objects to which to apply the specified permissions.
+    type:
+      -
+# Rel: https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html
+# The 'hooks' section for an EC2/On-Premises deployment contains mappings that link deployment lifecycle event hooks to one or more scripts.
+#   An EC2/On-Premises deployment hook is executed once per deployment to an instance.
+#   If you are not running any commands on the Amazon EC2 instance, then remove the "hooks" section altogether.
+#   A blank or incomplete "hooks" section may cause associated deployments to fail.
+hooks:
+  # For each deployment lifecycle event, specify multiple "location" entries if you want to run multiple scripts during that event.
+  # You can specify "timeout" as the number of seconds to wait until failing the deployment
+  #   if the specified scripts do not run within the specified time limit for the specified event. For example, 900 seconds is 15 minutes.
+  #   If not specified, the default is 1800 seconds (30 minutes).
+  #   Note that the maximum amount of time that all scripts must finish executing for each individual deployment lifecycle event is 3600 seconds (1 hour).
+  #   Otherwise, the deployment will stop and CodeDeploy will consider the deployment to have failed to the Amazon EC2 instance.
+  #   Make sure that the total number of seconds that are specified in "timeout" for all scripts in each individual deployment lifecycle event does not exceed a combined 3600 seconds (1 hour).
+  #
+  ApplicationStop:
+    # location
+    #   Required. The location in the bundle of the script file for the revision.
+    #   The location of scripts you specify in the hooks section is relative to the root of the application revision bundle.
+    - location: scripts/clean_instance.sh
+      # timeout
+      #   Optional. The number of seconds to allow the script to execute before it is considered to have failed.
+      #   The default is 3600 seconds (1 hour).
+      timeout:
+      # runas
+      #   Optional. The user to impersonate when running the script.
+      #   By default, this is the CodeDeploy agent running on the instance.
+      runas:
+    - location:
+      timeout:
+      runas:
+  # During the BeforeInstall deployment lifecycle event, run the commands in the script specified in "location".
+  BeforeInstall:
+    - location:
+      timeout:
+      runas:
+    - location:
+      timeout:
+      runas:
+  # During the AfterInstall deployment lifecycle event, run the commands in the script specified in "location".
+  AfterInstall:
+    - location:
+      timeout:
+      runas:
+    - location:
+      timeout:
+      runas:
+  # During the ApplicationStart deployment lifecycle event, run the commands
+  #   in the script specified in "location".
+  ApplicationStart:
+    - location:
+      timeout:
+      runas:
+    - location:
+      timeout:
+      runas:
+  # During the ValidateService deployment lifecycle event, run the commands
+  #   in the script specified in "location".
+  ValidateService:
+    - location:
+      timeout:
+      runas:
+    - location:
+      timeout:
+      runas:
