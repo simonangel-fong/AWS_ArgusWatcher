@@ -10,7 +10,8 @@
       <div class="col-md-4 col-sm-12">
         <div class="card h-100">
           <h4 class="card-header">
-            Server Name: <span id="name" class="fw-bold">{{instance.name}}</span>
+            Server Name:
+            <span id="name" class="fw-bold">{{instance.name}}</span>
           </h4>
           <div class="card-body">
             <h5 class="card-title mb-3">
@@ -49,6 +50,12 @@
               Status:
               <span id="status" class="fw-bold">
                 <!-- status -->
+              </span>
+            </p>
+            <p class="card-text">
+              Description:
+              <span id="status" class="fw-bold">
+                {{instance.description}}
               </span>
             </p>
             <p>

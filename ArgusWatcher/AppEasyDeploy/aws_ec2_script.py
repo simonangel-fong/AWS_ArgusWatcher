@@ -15,7 +15,7 @@ def read_user_data_script(script_path, project_name, github_url, mysql_user=None
     else:
         user_data = user_data.replace("py_project_name", project_name)
         user_data = user_data.replace(
-            "py_repo_name", github_url.rstrip(".git").split("/")[-1])
+            "py_repo_name", github_url[:-4].split("/")[-1])
         user_data = user_data.replace("py_github_url", github_url)
 
         return user_data
