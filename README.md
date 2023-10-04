@@ -34,7 +34,7 @@ A Django Portfolio Project.
   - [x] base
   - [x] Navbar
 
-- [x] Create App: AppEC2
+- [x] Create App: AppEasyDeploy
   - [x] List
   - [x] Create
   - [x] Detail

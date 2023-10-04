@@ -10,7 +10,7 @@
       <div class="col-md-4 col-sm-12">
         <div class="card h-100">
           <h4 class="card-header">
-            Instance: <span id="name" class="fw-bold">{{instance.name}}</span>
+            Server Name: <span id="name" class="fw-bold">{{instance.name}}</span>
           </h4>
           <div class="card-body">
             <h5 class="card-title mb-3">
@@ -27,22 +27,12 @@
               </a>
             </h5>
             <p class="card-text">
-              Instance ID:
+              Server ID:
               <span id="instance_id" class="fw-bold">
                 {{instance.instance_id}}
               </span>
             </p>
 
-            <p class="card-text">
-              Domain:
-              <span id="domain" class="fw-bold">
-                {% if instance.domain %}
-                <a href="http://{{instance.domain}}" target="_blank">
-                  {{instance.domain}}
-                </a>
-                {% endif %}
-              </span>
-            </p>
             <p class="card-text">
               Create Date:
               <span id="created_date" class="fw-bold">
@@ -74,6 +64,7 @@
                 id="btn_update_code"
                 type="button"
                 class="btn btn-sm btn-outline-success rounded-pill align-middle my-2"
+                disabled
               >
                 <i class="bi bi-cloud-upload"></i>
                 Update Github Code
@@ -90,14 +81,14 @@
             <hr class="py-2" />
             <div class="d-flex">
               <a
-                href="{% url 'AppEC2:list' %}"
+                href="{% url 'AppEasyDeploy:list' %}"
                 class="btn btn-sm btn-outline-secondary rounded-pill me-auto"
               >
                 Back
               </a>
 
               <a
-                href="{% url 'AppEC2:terminate' instance.pk %}"
+                href="{% url 'AppEasyDeploy:terminate' instance.pk %}"
                 class="btn btn-sm btn-outline-danger rounded-pill"
               >
                 Terminate Instance
@@ -107,28 +98,11 @@
         </div>
       </div>
       <div class="col-md-8 col-sm-12">
-        <div class="card h-100 rounded">
-          <div
-            class="card-text h-100 text-bg-dark p-2 rounded-top-2"
-            style="min-height: 200px"
-          ></div>
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Linux Command"
-              aria-label="Recipient's username"
-              aria-describedby="button-addon2"
-            />
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              id="button-addon2"
-            >
-              Input
-            </button>
-          </div>
-        </div>
+        <img
+          src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*wGZaCDK7BVhaKbeW.jpeg"
+          alt=""
+          srcset=""
+        />
       </div>
     </div>
   </div>
@@ -150,11 +124,11 @@
     request_ec2_by_name(INSTANCE_NAME, INFO_URL).then((data) => display(data));
   });
 
-  // update codes from github after deployed.
-  $("#btn_update_code").click(() => {
-    request_ec2_by_name(INSTANCE_NAME, UPDATE_CODE_URL).then((data) =>
-      console.log(data)
-    );
-  });
+  // // update codes from github after deployed.
+  // $("#btn_update_code").click(() => {
+  //   request_ec2_by_name(INSTANCE_NAME, UPDATE_CODE_URL).then((data) =>
+  //     console.log(data)
+  //   );
+  // });
 </script>
 {% endblock %}

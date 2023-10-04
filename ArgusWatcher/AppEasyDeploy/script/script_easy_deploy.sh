@@ -1,9 +1,12 @@
 #!/bin/bash
-# Program Name: script.sh
+# Program Name: script_easy_deploy.sh
 # Author name: Wenhao Fang
-# Date Created: Aug 30th 2023
-# Date updated: Sept 3rd 2023
-# Description of the script: Sets up EC2 to deploy django app using user data.
+# Date Created: Oct 3rd 2023
+# Date updated: Oct 3rd 2023
+# Description of the script:
+#   Sets up EC2 to deploy django app using user data.
+#   No .env file.
+#   No database connection setup.
 
 ## Updates Linux package
 update_package() {
@@ -11,42 +14,6 @@ update_package() {
     DEBIAN_FRONTEND=noninteractive apt-get -y update # update the package on Linux system.
     # DEBIAN_FRONTEND=noninteractive apt-get -y upgrade # downloads and installs the updates for each outdated package and dependency
     echo -e "$(date +'%Y-%m-%d %R') Updating Linux package completed.\n"
-}
-
-## Install and configure MySQL
-setup_mysql() {
-
-    P_USER=$1
-    P_PWD=$2
-    P_DB_NAME=$3
-
-    # Install MySQL
-    echo -e "$(date +'%Y-%m-%d %R') Install mysql-server starts..."
-    DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server
-    systemctl start mysql
-    echo -e "$(date +'%Y-%m-%d %R') Install mysql-server completed.\n"
-
-    # Install MySQL related package
-    echo -e "$(date +'%Y-%m-%d %R') Install MySQL related package starts..."
-    DEBIAN_FRONTEND=noninteractive apt-get -y install python3-dev default-libmysqlclient-dev build-essential pkg-config
-    systemctl restart mysql
-    echo -e "$(date +'%Y-%m-%d %R') Install MySQL related package completed.\n"
-
-    # logging mysql status
-    echo -e "\n$(date +'%Y-%m-%d %R') Mysql status:" >>/home/ubuntu/setup_log
-    systemctl status mysql.service >>/home/ubuntu/setup_log
-
-    # Create database
-    echo -e "$(date +'%Y-%m-%d %R') Create project database starts..."
-    mysql -u root -e "CREATE USER IF NOT EXISTS '${P_USER}'@'localhost' IDENTIFIED BY '${P_PWD}';"
-    mysql -u root -e "GRANT CREATE, ALTER, DROP, INSERT, UPDATE, INDEX, DELETE, SELECT, REFERENCES, RELOAD on *.* TO '${P_USER}'@'localhost' WITH GRANT OPTION;"
-    mysql -u root -e "FLUSH PRIVILEGES;"
-    mysql -u$P_USER -p$P_PWD -e "CREATE DATABASE IF NOT EXISTS ${P_DB_NAME};"
-    echo -e "$(date +'%Y-%m-%d %R') Create project database completed.\n"
-
-    # logging database
-    echo -e "\n$(date +'%Y-%m-%d %R') Databases in Mysql:" >>/home/ubuntu/setup_log
-    mysql -u$P_USER -p$P_PWD -e "show databases;" >>/home/ubuntu/setup_log
 }
 
 ## Establish virtual environment
@@ -73,32 +40,6 @@ load_code() {
     cd /home/ubuntu
     git clone $P_GITHUB_URL # clone codes from github
     echo -e "$(date +'%Y-%m-%d %R') Download codes from github completed.\n"
-}
-
-## Create .env file within project dir
-create_env_file() {
-
-    local P_REPO_NAME=$1
-    local P_PROJECT_NAME=$2
-    local P_HOST_IP=$3
-    local P_DB_NAME=$4
-    local P_USER=$5
-    local P_PWD=$6
-    local P_DOMAIN=$7
-
-    echo -e "$(date +'%Y-%m-%d %R') Create .env file starts..."
-    env_file=/home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME}/.env
-    cat >$env_file <<ENV
-DEBUG=False
-ALLOWED_HOSTS=${P_HOST_IP} ${P_DOMAIN}
-MYSQL_DATABASE_NAME=${P_DB_NAME}
-MYSQL_USERNAME=${P_USER}
-MYSQL_PASSWORD=${P_PWD}
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-ENV
-    echo -e "$(date +'%Y-%m-%d %R') Create .env file completed.\n"
-
 }
 
 ## Update packages within venv
@@ -195,7 +136,6 @@ setup_nginx() {
     local P_REPO_NAME=$1
     local P_PROJECT_NAME=$2
     local P_HOST_IP=$3
-    local P_DOMAIN=$4
 
     # Install nginx
     echo -e "$(date +'%Y-%m-%d %R') Install nginx starts."
@@ -213,7 +153,7 @@ setup_nginx() {
     cat >$django_conf <<DJANGO_CONF
 server {
 listen 80;
-server_name ${P_HOST_IP} ${P_DOMAIN};
+server_name ${P_HOST_IP};
 location = /favicon.ico { access_log off; log_not_found off; }
 location /static/ {
     root /home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME};
@@ -315,138 +255,8 @@ reload_supervisor() {
     supervisorctl status >>/home/ubuntu/setup_log
 }
 
-## Create update script
-create_update_script() {
-
-    echo -e "$(date +'%Y-%m-%d %R') Update script file creates."
-    rm -f /home/ubuntu/update.sh
-    update_script=/home/ubuntu/update.sh # create update script file
-    cat >$update_script <<UPDATE_SCRIPT
-#!/bin/bash
-#Program Name: update.sh
-#Author name: Wenhao Fang
-#Date Created: Aug 27th 2023
-#Date updated:
-#Description of the script: Update codes and deploy
-
-
-## Download codes from github
-load_code() {
-
-    local P_REPO_NAME=$1
-    P_GITHUB_URL=$2
-
-    echo -e "$(date +'%Y-%m-%d %R') Download codes from github starts..."
-    rm -rf /home/ubuntu/${P_REPO_NAME} # remove the exsting directory
-    cd /home/ubuntu
-    git clone $P_GITHUB_URL # clone codes from github
-    echo -e "$(date +'%Y-%m-%d %R') Download codes from github completed.\n"
-}
-
-## Create .env file within project dir
-create_env_file() {
-
-    local P_REPO_NAME=$1
-    local P_PROJECT_NAME=$2
-    local P_HOST_IP=$3
-    local P_DB_NAME=$4
-    local P_USER=$5
-    local P_PWD=$6
-    local P_DOMAIN=$7
-
-    echo -e "$(date +'%Y-%m-%d %R') Create .env file starts..."
-    env_file=/home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME}/.env
-    cat >$env_file <<ENV
-DEBUG=False
-ALLOWED_HOSTS=${P_HOST_IP} ${P_DOMAIN}
-MYSQL_DATABASE_NAME=${P_DB_NAME}
-MYSQL_USERNAME=${P_USER}
-MYSQL_PASSWORD=${P_PWD}
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-ENV
-    echo -e "$(date +'%Y-%m-%d %R') Create .env file completed.\n"
-
-}
-
-## Update packages within venv
-update_venv_package() {
-
-    P_REPO_NAME=$1
-    P_PROJECT_NAME=$2
-
-    echo -e "$(date +'%Y-%m-%d %R') Update venv packages starts..."
-    source /home/ubuntu/env/bin/activate # activate venv
-
-    pip install -r /home/ubuntu/${P_REPO_NAME}/requirements.txt
-    echo -e "$(date +'%Y-%m-%d %R') Update venv packages completed.\n"
-
-    # logging package list
-    echo -e "\n$(date +'%Y-%m-%d %R') Pip list:" >>/home/ubuntu/update_log
-    pip list >>/home/ubuntu/update_log
-
-    # Migrate App
-    echo -e "$(date +'%Y-%m-%d %R') Migrate App starts..."
-    python3 /home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME}/manage.py makemigrations
-    python3 /home/ubuntu/${P_REPO_NAME}/${P_PROJECT_NAME}/manage.py migrate
-    deactivate
-    echo -e "$(date +'%Y-%m-%d %R') Migrate App starts completed.\n"
-}
-
-## Reload Nginx
-reload_nginx() {
-    # relaod nginx
-    systemctl daemon-reload # reload daemon
-    systemctl reload nginx  # reload nginx
-
-    # logging nginx status
-    echo -e "\n$(date +'%Y-%m-%d %R') Nginx reload syntax:" >>/home/ubuntu/update_log
-    nginx -t >>/home/ubuntu/update_log
-
-    echo -e "\n$(date +'%Y-%m-%d %R') Nginx reload status:" >>/home/ubuntu/update_log
-    systemctl status nginx >>/home/ubuntu/update_log
-}
-
-## Reload Supervisor
-reload_supervisor() {
-    # relaod supervisor
-    systemctl daemon-reload     # reload daemon
-    systemctl reload supervisor # reload supervisor
-
-    # logging supervisor status
-    sleep 5
-    echo -e "\n$(date +'%Y-%m-%d %R') Supervisor status:" >>/home/ubuntu/update_log
-    supervisorctl status >>/home/ubuntu/update_log
-}
-
-P_REPO_NAME=py_repo_name
-P_PROJECT_NAME=py_project_name
-P_GITHUB_URL=py_github_url
-P_HOST_IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
-P_DOMAIN=py_domain_name
-P_USER=py_user
-P_PWD=py_pwd
-P_DB_NAME=py_db_name
-
-## Download codes from github
-load_code $P_REPO_NAME $P_GITHUB_URL
-
-## Create .env file within project dir
-create_env_file $P_REPO_NAME $P_PROJECT_NAME $P_HOST_IP $P_DB_NAME $P_USER $P_PWD $P_DOMAIN
-
-## Install packages within venv
-update_venv_package $P_REPO_NAME $P_PROJECT_NAME
-
-## Reload Nginx
-reload_nginx
-
-## Reload Supervisor
-reload_supervisor
-UPDATE_SCRIPT
-
-}
-
-create_cloud_config() {
+## Configure script for restart
+config_cloud_restart() {
 
     echo -e "$(date +'%Y-%m-%d %R') Create cloud config for restart script."
     cloud_config=/etc/cloud/cloud.cfg.d/cloud-config.cfg # create cloud configuration file
@@ -457,30 +267,26 @@ cloud_final_modules:
 CLOUD_CONFIG
 }
 
+# test
+# P_REPO_NAME=Repo4DjangoEasyDeploy
+# P_PROJECT_NAME=SimpleDjango
+# P_GITHUB_URL=https://github.com/simonangel-fong/Repo4DjangoEasyDeploy.git
+# P_HOST_IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+
+# production
 P_REPO_NAME=py_repo_name
 P_PROJECT_NAME=py_project_name
 P_GITHUB_URL=py_github_url
-# public ip
 P_HOST_IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
-P_DOMAIN=py_domain_name # domain
-P_USER=py_user
-P_PWD=py_pwd
-P_DB_NAME=py_db_name
 
 ## Update OS
 update_package
-
-## Install and configure MySQL
-setup_mysql $P_USER $P_PWD $P_DB_NAME
 
 ## Establish virtual environment
 setup_venv
 
 ## Download codes from github
 load_code $P_REPO_NAME $P_GITHUB_URL
-
-## Create .env file within project dir
-create_env_file $P_REPO_NAME $P_PROJECT_NAME $P_HOST_IP $P_DB_NAME $P_USER $P_PWD $P_DOMAIN
 
 ## Install packages within venv
 update_venv_package $P_REPO_NAME $P_PROJECT_NAME
@@ -489,13 +295,10 @@ update_venv_package $P_REPO_NAME $P_PROJECT_NAME
 setup_gunicorn $P_REPO_NAME $P_PROJECT_NAME
 
 ## Install and configure Nginx
-setup_nginx $P_REPO_NAME $P_PROJECT_NAME $P_HOST_IP $P_DOMAIN
+setup_nginx $P_REPO_NAME $P_PROJECT_NAME $P_HOST_IP
 
 ## Install and configure Supervisor
 setup_supervisor $P_REPO_NAME $P_PROJECT_NAME
 
-## Create update script
-create_update_script
-
 ## Create cloud config, the script will be run each restart.
-create_cloud_config
+config_cloud_restart

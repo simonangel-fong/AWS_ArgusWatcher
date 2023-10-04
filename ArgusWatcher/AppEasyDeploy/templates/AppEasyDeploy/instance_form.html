@@ -4,8 +4,10 @@
   <header class="text-center">
     <h3 class="h3 pt-4">{{heading}}</h3>
     <p class="lead">
-      Deploy a Django web application from Github repository on an AWS EC2
-      Instance.
+      This is a demo of deploying a Django web application from Github
+      repository on an AWS EC2 Instance. <br />
+      Using this, Django developers can concern on their development and then
+      submit a simple to deploy their project.
     </p>
   </header>
   <hr class="my-2" />
@@ -13,7 +15,7 @@
   <div class="container p-4">
     <form class="row g-4" method="post" novalidate>
       {% csrf_token %}
-      <h4 class="mb-3">Instance and Django Project Configuration</h4>
+      <h4 class="mb-3">Server and Django Project Configuration</h4>
 
       <!-- name -->
       <div class="col-md-5 col-sm-12">
@@ -25,18 +27,8 @@
         <small class="text-danger"> {{form.name.errors}} </small>
       </div>
 
-      <!-- domain -->
-      <div class="col-md-5 col-sm-12">
-        <label class="form-label" for="{{ form.domain.id_for_label }}">
-          {{form.domain.label}}
-        </label>
-        {{form.domain}}
-        <small class="form-text">Hint: {{form.domain.help_text}} </small>
-        <small class="text-danger"> {{form.domain.errors}} </small>
-      </div>
-
       <!-- project_name -->
-      <div class="col-md-4 col-sm-12">
+      <div class="col-md-6 col-sm-12">
         <label class="form-label" for="{{ form.project_name.id_for_label }}">
           {{form.project_name.label}}
         </label>
@@ -70,45 +62,14 @@
 
       <hr class="my-4" />
 
-      <h4 class="mb-3">MySQL Configuration</h4>
-      <!-- username -->
-      <div class="col-md-6 col-sm-12">
-        <label class="form-label" for="{{ form.user.id_for_label }}">
-          {{form.user.label}}
-        </label>
-        {{form.user}}
-        <small class="form-text">Hint: {{form.user.help_text}} </small>
-
-        <small class="text-danger"> {{form.user.errors}} </small>
-      </div>
-
-      <!-- database name -->
-      <div class="col-md-6 col-sm-12">
-        <label class="form-label" for="{{ form.db_name.id_for_label }}">
-          {{form.db_name.label}}
-        </label>
-        {{form.db_name}}
-        <small class="form-text">Hint: {{form.db_name.help_text}} </small>
-
-        <small class="text-danger"> {{form.db_name.errors}} </small>
-      </div>
-
-      <!-- password -->
-      <div class="col-md-9 col-sm-12">
-        <label class="form-label" for="{{ form.password.id_for_label }}">
-          {{form.password.label}}
-        </label>
-        {{form.password}}
-        <small class="form-text">Hint: {{form.password.help_text}} </small>
-        <small class="text-danger"> {{form.password.errors}} </small>
-      </div>
+      <h4 class="mb-3">MySQL Configuration (Comming soon)</h4>
 
       <hr class="my-4" />
 
       <div class="d-flex py-2">
         <a
           class="btn btn-outline-secondary rounded-pill me-auto"
-          href="{% url 'AppEC2:list' %}"
+          href="{% url 'AppEasyDeploy:list' %}"
         >
           Back
         </a>

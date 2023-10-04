@@ -3,7 +3,7 @@
   <header class="d-flex align-items-center mt-2">
     <h3 class="h3 pt-4 me-auto">{{heading}}</h3>
     <a
-      href="{% url 'AppEC2:create' %}"
+      href="{% url 'AppEasyDeploy:create' %}"
       class="btn btn-outline-primary rounded-pill"
     >
       Create
@@ -19,7 +19,6 @@
             <th scope="col">No</th>
             <th scope="col">Instance Name</th>
             <th scope="col">Project Name</th>
-            <th scope="col">Domain Name</th>
             <th scope="col">Create Time</th>
           </tr>
         </thead>
@@ -28,18 +27,11 @@
           <tr>
             <td>{{forloop.counter}}</td>
             <td>
-              <a href="{% url 'AppEC2:detail' instance.pk %}">
+              <a href="{% url 'AppEasyDeploy:detail' instance.pk %}">
                 {{ instance.name }}
               </a>
             </td>
             <td>{{ instance.project_name }}</td>
-            <td>
-              {% if instance.domain %}
-              <a href="http://{{instance.domain}}" target="_blank">
-                {{instance.domain}}
-              </a>
-              {% else %} N/A {% endif %}
-            </td>
             <td>{{ instance.created_date|date:"Y-m-d H:i:s" }}</td>
           </tr>
           {% endfor %}

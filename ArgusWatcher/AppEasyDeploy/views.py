@@ -14,7 +14,11 @@ from .ssh.ssh_connect import ssh_command_to_ec2
 from django.conf import settings
 
 
-SCRIPT_PATH = Path(Path(__file__).resolve().parent, "script.sh")
+SCRIPT_PATH = Path(
+    Path(__file__).resolve().parent,
+    "script",
+    "script_easy_deploy.sh"
+)
 EC2_TEMPLATE = "Argus_Lab_Server_Template"
 
 
@@ -36,14 +40,14 @@ class InstanceCreateView(SuccessMessageMixin, CreateView):
 
     model = Instance
     form_class = InstanceForm
-    # success_url = reverse_lazy("AppEC2:success")
+    # success_url = reverse_lazy("AppEasyDeploy:success")
     success_message = 'Instance "%(name)s" was created successfully. Waiting for AWS to response.'
-    template_name = "AppEC2/instance_form.html"
+    template_name = "AppEasyDeploy/instance_form.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Create new EC2 Instance"
-        context["heading"] = "New EC2 Instance"
+        context["heading"] = "Django Easy Deployment"
         return context
 
     def post(self, request, *args, **kwargs):
@@ -57,7 +61,7 @@ class InstanceCreateView(SuccessMessageMixin, CreateView):
                 github_url=form.cleaned_data["github_url"],
                 project_name=form.cleaned_data["project_name"],
                 description=form.cleaned_data["description"],
-                domain=form.cleaned_data["domain"].lstrip("http://"),
+
             )
 
             # Generates bash script based on given parameters.
@@ -65,10 +69,6 @@ class InstanceCreateView(SuccessMessageMixin, CreateView):
                 SCRIPT_PATH,
                 form.cleaned_data["project_name"],
                 form.cleaned_data["github_url"],
-                form.cleaned_data["user"],
-                form.cleaned_data["password"],
-                form.cleaned_data["db_name"],
-                form.cleaned_data["domain"].lstrip("http://")
             )
 
             # Creates an new EC2 instance
@@ -85,7 +85,7 @@ class InstanceCreateView(SuccessMessageMixin, CreateView):
             obj.save()
 
             # redirect to the detail page
-            return redirect("AppEC2:detail", pk=obj.pk)
+            return redirect("AppEasyDeploy:detail", pk=obj.pk)
 
         return render(request, self.template_name, {"form": form})
 
@@ -93,7 +93,7 @@ class InstanceCreateView(SuccessMessageMixin, CreateView):
 class SuccessView(TemplateView):
     ''' A view to display success message. '''
 
-    template_name = "AppEC2/success.html"
+    template_name = "AppEasyDeploy/success.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -119,7 +119,7 @@ class InstanceTerminateView(SuccessMessageMixin, DeleteView):
     ''' A view to terminate a specified instance '''
 
     model = Instance
-    success_url = reverse_lazy("AppEC2:success")
+    success_url = reverse_lazy("AppEasyDeploy:success")
     # define a success message to display
     success_message = 'Instance "%(name)s" was terminated successfully. Waiting for AWS to response.'
 

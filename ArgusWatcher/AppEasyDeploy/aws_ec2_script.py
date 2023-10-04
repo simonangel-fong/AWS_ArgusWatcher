@@ -3,7 +3,7 @@ import boto3
 from asgiref.sync import sync_to_async
 
 
-def read_user_data_script(script_path, project_name, github_url, mysql_user, mysql_pwd, db_name, domain_name=None):
+def read_user_data_script(script_path, project_name, github_url, mysql_user=None, mysql_pwd=None, db_name=None, domain_name=None):
     ''' Reads bash script from a script file and inject key data. '''
 
     user_data = ""
@@ -17,10 +17,6 @@ def read_user_data_script(script_path, project_name, github_url, mysql_user, mys
         user_data = user_data.replace(
             "py_repo_name", github_url.rstrip(".git").split("/")[-1])
         user_data = user_data.replace("py_github_url", github_url)
-        user_data = user_data.replace("py_user", mysql_user)
-        user_data = user_data.replace("py_pwd", mysql_pwd)
-        user_data = user_data.replace("py_db_name", db_name)
-        user_data = user_data.replace("py_domain_name", domain_name)
 
         return user_data
 

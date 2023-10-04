@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class Appec2Config(AppConfig):
+class AppeasydeployConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'AppEC2'
+    name = 'AppEasyDeploy'

@@ -3,7 +3,7 @@ from .views import (InstanceListView, InstanceCreateView,
                     InstanceDetailView, SuccessView, InstanceTerminateView,
                     get_instance_info, update_code)
 
-app_name = "AppEC2"
+app_name = "AppEasyDeploy"
 
 urlpatterns = [
     path("list/", InstanceListView.as_view(), name="list"),
