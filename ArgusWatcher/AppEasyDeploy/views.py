@@ -19,7 +19,7 @@ SCRIPT_PATH = Path(
     "script",
     "script_easy_deploy.sh"
 )
-EC2_TEMPLATE = "Argus_Lab_Server_Template"
+EC2_TEMPLATE = "Ubuntu_GP_Template"
 
 
 class InstanceListView(ListView):
